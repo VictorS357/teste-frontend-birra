@@ -1,23 +1,21 @@
-const sequelize = require('../src/database/database');
-const Usuario = require('../src/models/Usuario')(sequelize);
-const Cliente = require('../src/models/Cliente')(sequelize);
+const db = require('../src/models');
 
 async function syncDatabase() {
     try {
         console.log('Conectando ao banco...');
 
-        await sequelize.authenticate();
+        await db.sequelize.authenticate();
 
         console.log('Conexão realizada com sucesso!');
 
-        await sequelize.sync();
+        await db.sequelize.sync();
 
         console.log('Banco sincronizado com sucesso!');
     } catch (error) {
         console.error('Erro ao sincronizar o banco:');
         console.error(error);
     } finally {
-        await sequelize.close();
+        await db.sequelize.close();
     }
 }
 
