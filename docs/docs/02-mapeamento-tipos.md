@@ -35,7 +35,7 @@ Todas as tabelas do projeto deverão seguir este padrão.
 | Image | DataTypes.STRING | VARCHAR(500) | Armazena apenas o caminho ou URL da imagem. |
 | File | DataTypes.STRING | VARCHAR(500) | Armazena apenas o caminho ou URL do arquivo. |
 | Signature | DataTypes.STRING | VARCHAR(500) | Armazena apenas o caminho ou URL da assinatura. |
-| Ref | DataTypes.UUID ou DataTypes.STRING | CHAR(36) ou VARCHAR(255) | O tipo será definido conforme a chave primária da tabela referenciada. |
+| Ref | DataTypes.UUID | CHAR(36) | Referência para outra tabela utilizando UUID como chave primária. |
 
 ---
 
@@ -68,6 +68,12 @@ Todas as tabelas utilizarão:
 - `id` como chave primária;
 - `primaryKey: true`.
 
+### Tipo da Chave Primária
+
+Todas as tabelas utilizarão UUID como chave primária.
+
+Essa decisão foi tomada para preservar os identificadores já existentes no AppSheet e facilitar a migração dos dados e dos relacionamentos entre as tabelas.
+
 ---
 
 # Chaves Estrangeiras
@@ -89,6 +95,17 @@ usuarioId
 produtoId
 pedidoId
 ```
+
+## Relacionamentos no Sequelize
+
+Todos os relacionamentos do AppSheet serão convertidos para associações nativas do Sequelize.
+
+Exemplos:
+
+- Pedido.belongsTo(Cliente)
+- Cliente.hasMany(Pedido)
+
+As colunas "Related ..." existentes no AppSheet não serão migradas para o banco, pois elas serão representadas automaticamente pelas associações entre os Models.
 
 ---
 
