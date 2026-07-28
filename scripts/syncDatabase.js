@@ -1,5 +1,6 @@
 const sequelize = require('../src/database/database');
 const Usuario = require('../src/models/Usuario')(sequelize);
+const Cliente = require('../src/models/Cliente')(sequelize);
 
 async function syncDatabase() {
     try {
