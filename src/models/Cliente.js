@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-    return sequelize.define(
+    const Cliente = sequelize.define(
         'Cliente',
         {
             id: {
@@ -106,4 +106,6 @@ module.exports = (sequelize) => {
             timestamps: false
         }
     );
+
+    return Cliente;
 };
