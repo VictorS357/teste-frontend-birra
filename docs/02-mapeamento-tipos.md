@@ -49,52 +49,13 @@ allowNull: false
 
 ---
 
-# Chave Primária
-
-No AppSheet:
-
-```
-Row ID
-```
-
-Na aplicação:
-
-```
-id
-```
-
-Todas as tabelas utilizarão:
-
-- `id` como chave primária;
-- `primaryKey: true`.
-
-### Tipo da Chave Primária
+# Tipo da Chave Primária
 
 Todas as tabelas utilizarão UUID como chave primária.
 
 Essa decisão foi tomada para preservar os identificadores já existentes no AppSheet e facilitar a migração dos dados e dos relacionamentos entre as tabelas.
 
 ---
-
-# Chaves Estrangeiras
-
-No banco de dados:
-
-```
-cliente_id
-usuario_id
-produto_id
-pedido_id
-```
-
-No JavaScript:
-
-```javascript
-clienteId
-usuarioId
-produtoId
-pedidoId
-```
 
 ## Relacionamentos no Sequelize
 
@@ -140,26 +101,6 @@ A responsabilidade pelo armazenamento físico ficará para uma etapa futura do p
 - Models no singular.
 - Tabelas no plural.
 - Chave primária sempre chamada `id`.
-
----
-
-# Decisões Arquiteturais
-
-## Por que não utilizar ENUM do MySQL?
-
-Apesar do AppSheet utilizar o tipo Enum, optamos por armazenar os valores como `VARCHAR`.
-
-Essa abordagem oferece maior flexibilidade para futuras alterações sem exigir novas migrations sempre que um valor permitido for adicionado ou removido.
-
-As validações serão realizadas pela aplicação.
-
----
-
-## Por que utilizar DECIMAL para valores monetários?
-
-Valores financeiros não devem ser armazenados utilizando FLOAT ou DOUBLE.
-
-O tipo DECIMAL evita erros de arredondamento, garantindo precisão em cálculos financeiros.
 
 ---
 
