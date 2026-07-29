@@ -144,3 +144,17 @@ A divisão em fases reduz a complexidade do desenvolvimento, facilita a validaç
 Este documento poderá ser atualizado caso novas decisões arquiteturais sejam tomadas durante o desenvolvimento do projeto.
 
 Toda alteração deverá conter sua respectiva justificativa.
+
+---
+
+# Campos Condicionalmente Obrigatórios
+
+## Decisão
+
+Campos obrigatórios apenas sob determinadas condições do AppSheet não serão representados com `allowNull: false` no Model.
+
+## Justificativa
+
+O Sequelize e o banco de dados não conhecem as regras condicionais do AppSheet.
+
+Essas validações pertencem à camada de negócio (API) e serão implementadas durante a Fase 5, por meio de validações nos Services ou Controllers.
