@@ -36,6 +36,8 @@ Todas as tabelas do projeto deverão seguir este padrão.
 | File | DataTypes.STRING | VARCHAR(500) | Armazena apenas o caminho ou URL do arquivo. |
 | Signature | DataTypes.STRING | VARCHAR(500) | Armazena apenas o caminho ou URL da assinatura. |
 | Ref | DataTypes.UUID | CHAR(36) | Referência para outra tabela utilizando UUID como chave primária. |
+| Color    | DataTypes.STRING | VARCHAR(20) | Armazena valores de cores (HEX, RGB ou nome da cor). |
+
 
 ---
 
