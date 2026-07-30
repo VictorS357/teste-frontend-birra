@@ -1,8 +1,8 @@
 const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-    const RotasDeChopeiraPai = sequelize.define(
-        'RotasDeChopeiraPai',
+    const RotaDeChopeiraPai = sequelize.define(
+        'RotaDeChopeiraPai',
         {
             id: {
                 type: DataTypes.UUID,
@@ -41,5 +41,5 @@ module.exports = (sequelize) => {
         }
     );
 
-    return RotasDeChopeiraPai;
+    return RotaDeChopeiraPai;
 };
