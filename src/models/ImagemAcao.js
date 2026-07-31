@@ -26,7 +26,7 @@ module.exports = (sequelize) => {
             img: {
                 type: DataTypes.STRING,
                 allowNull: true,
-                field: 'time'
+                field: 'img'
             },
 
             responsavelId: {
