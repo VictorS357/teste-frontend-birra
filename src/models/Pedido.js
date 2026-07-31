@@ -13,7 +13,7 @@ module.exports = (sequelize) => {
 
             clienteId: {
                 type: DataTypes.UUID,
-                allowNull: true,
+                allowNull: false,
                 field: 'cliente_id'
             },
 
@@ -25,13 +25,13 @@ module.exports = (sequelize) => {
 
             data: {
                 type: DataTypes.DATEONLY,
-                allowNull: true,
+                allowNull: false,
                 field: 'data'
             },
 
             hora: {
                 type: DataTypes.TIME,
-                allowNull: true,
+                allowNull: false,
                 field: 'hora'
             },
 
@@ -164,7 +164,7 @@ module.exports = (sequelize) => {
             dataHoraColeta: {
                 type: DataTypes.DATE,
                 allowNull: true,
-                field: 'data_hora_entrega'
+                field: 'data_hora_coleta'
             },
 
             fotoGas: {
