@@ -113,5 +113,27 @@ module.exports = (sequelize) => {
         }
     );
 
+    Planejamento.associate = (models) => {
+        Planejamento.belongsTo(models.Usuario, {
+            foreignKey: 'responsavelId',
+            as: 'responsavel'
+        });
+
+        Planejamento.belongsTo(models.Usuario, {
+            foreignKey: 'solicitanteId',
+            as: 'solicitante'
+        });
+
+        Planejamento.belongsTo(models.Cliente, {
+            foreignKey: 'clienteId',
+            as: 'cliente'
+        });
+
+        Planejamento.hasMany(models.ImagemAcao, {
+            foreignKey: 'acaoId',
+            as: 'imagens'
+        });
+    };
+
     return Planejamento;
 };

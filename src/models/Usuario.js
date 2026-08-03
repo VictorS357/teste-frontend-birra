@@ -59,5 +59,42 @@ module.exports = (sequelize) => {
         }
     );
 
+    Usuario.associate = (models) => {
+        Usuario.hasMany(models.Pedido, {
+            foreignKey: 'responsavelId',
+            as: 'pedidosResponsavel'
+        });
+
+        Usuario.hasMany(models.MovMassaPai, {
+            foreignKey: 'usuarioId',
+            as: 'movimentacoesMassa'
+        });
+
+        Usuario.hasMany(models.Planejamento, {
+            foreignKey: 'responsavelId',
+            as: 'planejamentosResponsavel'
+        });
+
+        Usuario.hasMany(models.Planejamneto, {
+            foreignKey: 'solicitanteId',
+            as: 'planejamentosSolicitados'
+        });
+
+        Usuario.hasMany(models.ImagemAcao, {
+            foreignKey: 'responsavelId',
+            as: 'imagensAcoes'
+        });
+
+        Usuario.hasMany(models.HistoricoMovimentacoes, {
+            foreignKey: 'usuarioId',
+            as: 'historicos'
+        });
+
+        Usuario.hasMany(models.RotaDeChopeiraPai, {
+            foreignKey: 'respId',
+            as: 'rotasResponsavel'
+        });
+    };
+
     return Usuario;
 };

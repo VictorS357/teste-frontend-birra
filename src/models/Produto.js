@@ -59,5 +59,32 @@ module.exports = (sequelize) => {
         }
     );
 
+    Produto.associate = (models) => {
+        Produto.hasMany(models.ItemPedido, {
+            foreignKey: 'produtoId',
+            as: 'itensPedido'
+        });
+
+        Produto.hasMany(models.Equiprecip, {
+            foreignKey: 'produtoId',
+            as: 'equipamentosOriginais'
+        });
+
+        Produto.hasMany(models.EquipRecip, {
+            foreignKey: 'produtoAtualId',
+            as: 'equipamentosAtuais'
+        });
+
+        Produto.hasMany(models.MovMassaPai, {
+            foreignKey: 'produtoId',
+            as: 'movimentacoesMassa'
+        });
+
+        Produto.hasMany(models.HistoricoMovimentacoes, {
+            foreignKey: 'produtoId',
+            as: 'historicos'
+        });
+    };
+
     return Produto;
 };

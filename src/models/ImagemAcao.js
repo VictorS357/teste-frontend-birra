@@ -47,5 +47,12 @@ module.exports = (sequelize) => {
         }
     );
 
+    ImagemAcao.associate = (models) => {
+        ImagemAcao.belongsTo(models.Usuario, {
+            foreignKey: 'responsavelId',
+            as: 'responsavel'
+        });
+    };
+
     return ImagemAcao;
 };

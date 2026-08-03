@@ -41,5 +41,17 @@ module.exports = (sequelize) => {
         }
     );
 
+    RotaDeChopeiraPai.associate = (models) => {
+        RotaDeChopeiraPai.belongsTo(models.Usuario, {
+            foreignKey: 'respId',
+            as: 'responsavel'
+        });
+
+        RotaDeChopeiraPai.hasMany(models.RotaDeChopeiraFilho, {
+            foreignKey: 'rotaPaiId',
+            as: 'pedidos'
+        });
+    };
+
     return RotaDeChopeiraPai;
 };

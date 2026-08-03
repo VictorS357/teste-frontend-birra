@@ -107,5 +107,42 @@ module.exports = (sequelize) => {
         }
     );
 
+    HistoricoMovimentacoes.associate = (models) => {
+        HistoricoMovimentacoes.belongsTo(models.EquipRecip, {
+            foreignKey: 'equipRecipId',
+            as: 'equipamento'
+        });
+
+        HistoricoMovimentacoes.belongsTo(models.Usuario, {
+            foreignKey: 'usuarioId',
+            as: 'usuario'
+        });
+
+        HistoricoMovimentacoes.belongsTo(models.Produto, {
+            foreignKey: 'produtoId',
+            as: 'produto'
+        });
+
+        HistoricoMovimentacoes.belongsTo(models.Cliente, {
+            foreignKey: 'clienteId',
+            as: 'cliente'
+        });
+
+        HistoricoMovimentacoes.belongsTo(models.ItemPedido, {
+            foreignKey: 'itmSepId',
+            as: 'itemSeparacao'
+        });
+
+        HistoricoMovimentacoes.belongsTo(models.ItemPedido, {
+            foreignKey: 'itmEntrId',
+            as: 'itemEntrega'
+        });
+
+        HistoricoMovimentacoes.belongsTo(models.ItemPedido, {
+            foreignKey: 'itmConcId',
+            as: 'itemConclusao'
+        });
+    };
+
     return HistoricoMovimentacoes;
 };

@@ -59,5 +59,22 @@ module.exports = (sequelize) => {
         }
     );
 
+    MovMassaPai.associate = (models) => {
+        MovMassaPai.belongsTo(models.Usuario, {
+            foreignKey: 'usuarioId',
+            as: 'usuario'
+        });
+
+        MovMassaPai.belongsTo(models.Produto, {
+            foreignKey: 'produtoId',
+            as: 'produto'
+        });
+
+        MovMassaPai.hasMany(models.MovMassaFilho, {
+            foreignKey: 'movMassaPaiId',
+            as: 'itens'
+        });
+    };
+
     return MovMassaPai;
 };

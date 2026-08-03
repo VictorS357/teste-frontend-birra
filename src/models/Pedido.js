@@ -185,5 +185,27 @@ module.exports = (sequelize) => {
         }
     );
 
+    Pedido.associate = (models) => {
+        Pedido.belongsTo(models.Cliente, {
+            foreignKey: 'clienteId',
+            as: 'cliente'
+        });
+
+        Pedido.belongsTo(models.Usuario, {
+            foreignKey: 'responsavelId',
+            as: 'responsavel'
+        });
+
+        Pedido.hasMany(models.ItemPedido, {
+            foreignKey: 'pedidodId',
+            as: 'itens'
+        });
+
+        Pedido.hasMany(models.RotaDeChopeiraFilho, {
+            foreignKey: 'pedidoId',
+            as: 'rotas'
+        });
+    };
+
     return Pedido;
 };

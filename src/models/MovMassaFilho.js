@@ -35,5 +35,17 @@ module.exports = (sequelize) => {
         }
     );
 
+    MovMassaFilho.associate = (models) => {
+        MovMassaFilho.belongsTo(models.MovMassaPai, {
+            foreignKey: 'movMassaPaiId',
+            as: 'movimentacao'
+        });
+
+        MovMassaFilho.belongsTo(models.EquipRecip, {
+            foreignKey: 'equipRecipId',
+            as: 'equipamento'
+        });
+    };
+
     return MovMassaFilho;
 };

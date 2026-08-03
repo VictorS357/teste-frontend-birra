@@ -107,5 +107,27 @@ module.exports = (sequelize) => {
         }
     );
 
+    Cliente.associate = (models) => {
+        Cliente.hasMany(models.Pedido, {
+            foreignKey: 'clienteId',
+            as: 'pedidos'
+        });
+
+        Cliente.hasMany(models.Planejamento, {
+            foreignKey: 'clienteId',
+            as: 'planejamentos'
+        });
+
+        Cliente.hasMany(models.EquipCliente, {
+            foreignKey: 'clienteId',
+            as: 'equipamentos'
+        });
+
+        Cliente.hasMany(models.HistoricoMovimentacoes, {
+            foreignKey: 'clienteId',
+            as: 'historicos'
+        });
+    };
+
     return Cliente;
 };

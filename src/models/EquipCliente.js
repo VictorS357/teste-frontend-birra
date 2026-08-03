@@ -35,5 +35,12 @@ module.exports = (sequelize) => {
         }
     );
 
+    EquipCliente.associate = (models) => {
+        EquipCliente.belongsTo(models.Cliente, {
+            foreignKey: 'clienteId',
+            as: 'cliente'
+        });
+    };
+
     return EquipCliente;
 };
