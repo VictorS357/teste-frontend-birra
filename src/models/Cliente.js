@@ -127,6 +127,11 @@ module.exports = (sequelize) => {
             foreignKey: 'clienteId',
             as: 'historicos'
         });
+
+        Cliente.hasMany(models.TabelaPreco, {
+            foreignKey: 'clienteId',
+            as: 'tabelasPreco'
+        });
     };
 
     return Cliente;
