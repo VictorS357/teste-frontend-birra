@@ -125,7 +125,7 @@ module.exports = (sequelize) => {
 
         ItemPedido.hasMany(models.EquipRecip, {
             foreignKey: 'itemPedidoEntrId',
-            as: 'equipamentosSeparados'
+            as: 'equipamentosEntrados'
         });
 
         ItemPedido.hasMany(models.HistoricoMovimentacoes, {

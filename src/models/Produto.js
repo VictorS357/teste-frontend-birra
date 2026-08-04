@@ -65,7 +65,7 @@ module.exports = (sequelize) => {
             as: 'itensPedido'
         });
 
-        Produto.hasMany(models.Equiprecip, {
+        Produto.hasMany(models.EquipRecip, {
             foreignKey: 'produtoId',
             as: 'equipamentosOriginais'
         });

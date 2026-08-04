@@ -75,7 +75,7 @@ module.exports = (sequelize) => {
             as: 'planejamentosResponsavel'
         });
 
-        Usuario.hasMany(models.Planejamneto, {
+        Usuario.hasMany(models.Planejamento, {
             foreignKey: 'solicitanteId',
             as: 'planejamentosSolicitados'
         });
