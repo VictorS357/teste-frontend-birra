@@ -3,40 +3,40 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface) {
-    await queryInterface.addConstraint('pedidos', {
-      fields: ['cliente_id'],
+    await queryInterface.addConstraint('itens_pedido', {
+      fields: ['pedido_id'],
       type: 'foreign key',
-      name: 'fk_pedidos_cliente',
+      name: 'fk_itens_pedido_pedido',
       references: {
-        table: 'clientes',
+        table: 'pedidos',
+        field: 'id'
+      },
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE'
+    });
+
+    await queryInterface.addConstraint('itens_pedido', {
+      fields: ['produto_id'],
+      type: 'foreign key',
+      name: 'fk_itens_pedido_produto',
+      references: {
+        table: 'produtos',
         field: 'id'
       },
       onUpdate: 'CASCADE',
       onDelete: 'RESTRICT'
     });
-
-    await queryInterface.addConstraint('pedidos', {
-      fields: ['responsavel_id'],
-      type: 'foreign key',
-      name: 'fk_pedidos_responsavel',
-      references: {
-        table: 'usuarios',
-        field: 'id'
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL'
-    });
   },
 
   async down (queryInterface) {
     await queryInterface.removeConstraint(
-      'pedidos',
-      'fk_pedidos_responsavel'
+      'itens_pedido',
+      'fk_itens_pedido_produto'
     );
 
     await queryInterface.removeConstraint(
-      'pedidos',
-      'fk_pedidos_cliente'
-    );
+      'itens_pedido',
+      'fk_itens_pedido_pedido'
+    )
   }
 };
