@@ -197,7 +197,7 @@ module.exports = (sequelize) => {
         });
 
         Pedido.hasMany(models.ItemPedido, {
-            foreignKey: 'pedidodId',
+            foreignKey: 'pedidoId',
             as: 'itens'
         });
 
