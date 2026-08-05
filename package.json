@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "importar:usuarios": "node scripts/importacao/importar-usuarios.js",
     "importar:clientes": "node scripts/importacao/importar-clientes.js",
-    "importar:produtos": "node scripts/importacao/importar-produtos.js"
+    "importar:produtos": "node scripts/importacao/importar-produtos.js",
+    "importar:tabela-preco": "node scripts/importacao/importar-tabela-preco.js"
   },
   "keywords": [],
   "author": "",
