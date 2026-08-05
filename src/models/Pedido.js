@@ -85,7 +85,7 @@ module.exports = (sequelize) => {
 
             solicitado: {
                 type: DataTypes.DATEONLY,
-                allowNull: false,
+                allowNull: true,
                 field: 'solicitado'
             },
 
