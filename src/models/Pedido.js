@@ -177,6 +177,36 @@ module.exports = (sequelize) => {
                 type: DataTypes.STRING,
                 allowNull: true,
                 field: 'cidade_entrega'
+            },
+            
+            identificador: {
+                type: DataTypes.STRING,
+                allowNull: false,
+                field: 'identificador'
+            },
+
+            ultNot: {
+                type: DataTypes.DATE,
+                allowNull: true,
+                field: 'ult_not'
+            },
+
+            revenda: {
+                type: DataTypes.BOOLEAN,
+                allowNull: true,
+                field: 'revenda'
+            },
+
+            fotoCopoEntrega: {
+                type: DataTypes.STRING,
+                allowNull: true,
+                field: 'foto_copo_entrega'
+            },
+
+            fotoCopoColeta: {
+                type: DataTypes.STRING,
+                allowNull: true,
+                field: 'foto_copo_coleta'
             }
         },
         {
