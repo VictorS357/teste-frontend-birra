@@ -31,7 +31,7 @@ module.exports = (sequelize) => {
 
             hora: {
                 type: DataTypes.TIME,
-                allowNull: false,
+                allowNull: true,
                 field: 'hora'
             },
 
@@ -178,7 +178,7 @@ module.exports = (sequelize) => {
                 allowNull: true,
                 field: 'cidade_entrega'
             },
-            
+
             identificador: {
                 type: DataTypes.STRING,
                 allowNull: false,
