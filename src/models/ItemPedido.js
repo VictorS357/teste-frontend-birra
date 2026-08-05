@@ -37,7 +37,7 @@ module.exports = (sequelize) => {
 
             valorUnit: {
                 type: DataTypes.DECIMAL(10, 2),
-                allowNull: false,
+                allowNull: true,
                 field: 'valor_unit'
             },
 
