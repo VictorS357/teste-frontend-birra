@@ -9,7 +9,8 @@
     "importar:clientes": "node scripts/importacao/importar-clientes.js",
     "importar:produtos": "node scripts/importacao/importar-produtos.js",
     "importar:tabela-preco": "node scripts/importacao/importar-tabela-preco.js",
-    "importar:pedidos": "node scripts/importacao/importar-pedidos.js"
+    "importar:pedidos": "node scripts/importacao/importar-pedidos.js",
+    "importar:itens-pedido": "node scripts/importacao/importar-itens-pedido.js"
   },
   "keywords": [],
   "author": "",
