@@ -99,6 +99,12 @@ module.exports = (sequelize) => {
                 type: DataTypes.DECIMAL(10, 2),
                 allowNull: true,
                 field: 'inadi'
+            },
+
+            stsCol: {
+                type: DataTypes.STRING,
+                allowNull: true,
+                field: 'sts_col'
             }
         },
         {

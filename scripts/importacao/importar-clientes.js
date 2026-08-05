@@ -162,7 +162,8 @@ function validarCabecalhos(registros) {
         'Cidade',
         'Imagem',
         'UltimaLimpeza',
-        'Inadi'
+        'Inadi',
+        'stsCol'
     ];
 
     const cabecalhosRecebidos = Object.keys(registros[0]);
@@ -197,89 +198,133 @@ function mapearClientes(registros) {
         'Cidade',
         'Imagem',
         'UltimaLimpeza',
-        'Inadi'
+        'Inadi',
+        'stsCol'
     ];
 
+    const registrosComLinha = registros.map(
+        (registro, indice) => ({
+            registro,
+            numeroLinha: indice + 2
+        })
+    );
 
-    const registrosPreenchidos = registros.filter((registro) => {
-        return camposImportados.some((campo) => {
-            return textoOuNull(registro[campo]) !== null;
-        });
-    });
-
-    return registrosPreenchidos.map((registro, indice) => {
-        const numeroLinha = indice + 2;
-
-        const id = textoOuNull(registro['Row ID']);
-        const nome = textoOuNull(registro.Nome);
-        const tipo = textoOuNull(registro.Tipo);
-
-        if (!id) {
-            throw new Error(
-                `O campo "Row ID" está vazio na linha ${numeroLinha}.`
-            );
+    const registrosPreenchidos = registrosComLinha.filter(
+        ({ registro }) => {
+            return camposImportados.some((campo) => {
+                return textoOuNull(registro[campo]) !== null;
+            });
         }
+    );
 
-        if (!nome) {
-            throw new Error(
-                `O campo "Nome" está vazio na linha ${numeroLinha}.`
-            );
+    return registrosPreenchidos.map(
+        ({ registro, numeroLinha }) => {
+            const id = textoOuNull(registro['Row ID']);
+            const nome = textoOuNull(registro.Nome);
+            const tipo = textoOuNull(registro.Tipo);
+
+            if (!id) {
+                console.error(
+                    `Registro problemático na linha ${numeroLinha}:`,
+                    registro
+                );
+
+                throw new Error(
+                    `O campo "Row ID" está vazio na linha ${numeroLinha}.`
+                );
+            }
+
+            if (!nome) {
+                throw new Error(
+                    `O campo "Nome" está vazio na linha ${numeroLinha}.`
+                );
+            }
+
+            if (!tipo) {
+                throw new Error(
+                    `O campo "Tipo" está vazio na linha ${numeroLinha}.`
+                );
+            }
+
+            if (idsEncontrados.has(id)) {
+                throw new Error(
+                    `Row ID duplicado no CSV, linha ${numeroLinha}: "${id}".`
+                );
+            }
+
+            idsEncontrados.add(id);
+
+            return {
+                id,
+                nome,
+                tipo,
+
+                razaoSocial: textoOuNull(
+                    registro.RazaoSocial
+                ),
+
+                cpfCnpj: textoOuNull(
+                    registro['CPF/CNPJ']
+                ),
+
+                contato: textoOuNull(
+                    registro.Contato
+                ),
+
+                telefone: textoOuNull(
+                    registro.Telefone
+                ),
+
+                abre: converterHorario(
+                    registro.Abre,
+                    'Abre',
+                    numeroLinha
+                ),
+
+                fecha: converterHorario(
+                    registro.Fecha,
+                    'Fecha',
+                    numeroLinha
+                ),
+
+                local: textoOuNull(
+                    registro.Local
+                ),
+
+                condPgto: textoOuNull(
+                    registro.CondPgto
+                ),
+
+                obs: textoOuNull(
+                    registro.Obs
+                ),
+
+                cidade: textoOuNull(
+                    registro.Cidade
+                ),
+
+                imagem: textoOuNull(
+                    registro.Imagem
+                ),
+
+                ultimaLimpeza: converterData(
+                    registro.UltimaLimpeza,
+                    'UltimaLimpeza',
+                    numeroLinha
+                ),
+
+                inadi: converterDecimal(
+                    registro.Inadi,
+                    'Inadi',
+                    numeroLinha
+                ),
+
+                stsCol: textoOuNull(
+                    registro.stsCol
+                )
+            };
         }
-
-        if (!tipo) {
-            throw new Error(
-                `O campo "Tipo" está vazio na linha ${numeroLinha}.`
-            );
-        }
-
-        if (idsEncontrados.has(id)) {
-            throw new Error(
-                `Row ID duplicado no CSV, linha ${numeroLinha}: "${id}".`
-            );
-        }
-
-        idsEncontrados.add(id);
-
-        return {
-            id,
-            nome,
-            tipo,
-            razaoSocial: textoOuNull(registro.RazaoSocial),
-            cpfCnpj: textoOuNull(registro['CPF/CNPJ']),
-            contato: textoOuNull(registro.Contato),
-            telefone: textoOuNull(registro.Telefone),
-
-            abre: converterHorario(
-                registro.Abre,
-                'Abre',
-                numeroLinha
-            ),
-
-            fecha: converterHorario(
-                registro.Fecha,
-                'Fecha',
-                numeroLinha
-            ),
-
-            local: textoOuNull(registro.Local),
-            condPgto: textoOuNull(registro.CondPgto),
-            obs: textoOuNull(registro.Obs),
-            cidade: textoOuNull(registro.Cidade),
-            imagem: textoOuNull(registro.Imagem),
-
-            ultimaLimpeza: converterData(
-                registro.UltimaLimpeza,
-                'UltimaLimpeza',
-                numeroLinha
-            ),
-
-            inadi: converterDecimal(
-                registro.Inadi,
-                'Inadi',
-                numeroLinha
-            )
-        };
-    });
+    );
 }
 
 async function importarClientes() {
