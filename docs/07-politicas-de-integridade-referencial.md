@@ -234,24 +234,24 @@ A exclusão do produto não deve excluir o equipamento.
 
 ---
 
-## Produto atual
+## Cliente
 
 ```text
-equip_recip.produto_atual_id
-    → produtos.id
+equip_recip.cliente_id
+    → clientes.id
 ```
 
 | Propriedade | Política |
 |---|---|
 | Obrigatório | Não |
 | ON UPDATE | CASCADE |
-| ON DELETE | SET NULL |
+| ON DELETE | RESTRICT |
 
 ### Justificativa
 
-O equipamento continua existindo mesmo sem um produto atualmente associado.
+O cliente é obrigatório no registro
 
-Caso o produto seja removido, o equipamento ficará sem produto atual.
+A exclusão do cliente não pode fazer com que o equipamento fique órfão nem que seja apagado automaticamente
 
 ---
 

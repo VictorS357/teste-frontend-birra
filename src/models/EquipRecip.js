@@ -83,10 +83,22 @@ module.exports = (sequelize) => {
                 field: 'aux_pdf'
             },
 
-            produtoAtualId: {
-                type: DataTypes.UUID,
+            produtoAtual: {
+                type: DataTypes.STRING,
                 allowNull: true,
-                field: 'produto_atual_id'
+                field: 'produto_atual'
+            },
+
+            clienteId: {
+                type: DataTypes.UUID,
+                allowNull: false,
+                field: 'cliente_id'
+            },
+
+            ultMov: {
+                type: DataTypes.DATEONLY,
+                allowNull: true,
+                field: 'ult_mov'
             }
         },
         {
@@ -101,9 +113,9 @@ module.exports = (sequelize) => {
             as: 'produto'
         });
 
-        EquipRecip.belongsTo(models.Produto, {
-            foreignKey: 'produtoAtualId',
-            as: 'produtoAtual'
+        EquipRecip.belongsTo(models.Cliente, {
+            foreignKey: 'clienteId',
+            as: 'cliente'
         });
 
         EquipRecip.belongsTo(models.ItemPedido, {
