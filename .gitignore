@@ -1,4 +1,4 @@
 node_modules
 .env
 # Dados exportados do AppSheet
-dados/csv/*.csv
+dados/csv/**/*.csv
