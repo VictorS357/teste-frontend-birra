@@ -31,7 +31,7 @@ module.exports = (sequelize) => {
 
             qrcode: {
                 type: DataTypes.STRING,
-                allowNull: false,
+                allowNull: true,
                 field: 'qrcode'
             },
 
