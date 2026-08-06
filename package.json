@@ -11,7 +11,8 @@
     "importar:tabela-preco": "node scripts/importacao/importar-tabela-preco.js",
     "importar:pedidos": "node scripts/importacao/importar-pedidos.js",
     "importar:itens-pedido": "node scripts/importacao/importar-itens-pedido.js",
-    "atualizar:clientes-sts-col": "node scripts/importacao/atualizar-sts-col-clientes.js"
+    "atualizar:clientes-sts-col": "node scripts/importacao/atualizar-sts-col-clientes.js",
+    "importar:equip-recip": "node scripts/importacao/importar-equip-recip.js"
   },
   "keywords": [],
   "author": "",
