@@ -69,14 +69,48 @@ function converterDecimal(valor, nomeCampo, numeroLinha) {
     return numero;
 }
 
-/**
- * Aceita datas brasileiras e norte-americanas.
- *
- * Exemplos:
- * 02/11/2026 -> 2026-11-02, assumindo DD/MM/AAAA
- * 2/7/2026   -> 2026-07-02, assumindo DD/MM/AAAA
- * 5/20/2024  -> 2024-05-20, detectando MM/DD/AAAA
- */
+function identificarDiaMes(
+    primeiro,
+    segundo,
+    nomeCampo,
+    numeroLinha,
+    valorOriginal
+) {
+    let dia;
+    let mes;
+
+    if (primeiro > 12 && segundo <= 12) {
+        // DD/MM/AAAA
+        dia = primeiro;
+        mes = segundo;
+    } else if (segundo > 12 && primeiro <= 12) {
+        // MM/DD/AAAA
+        mes = primeiro;
+        dia = segundo;
+    } else {
+        // Data ambígua: assume o formato brasileiro.
+        dia = primeiro;
+        mes = segundo;
+    }
+
+    if (
+        dia < 1 ||
+        dia > 31 ||
+        mes < 1 ||
+        mes > 12
+    ) {
+        throw new Error(
+            `Data inexistente no campo "${nomeCampo}", ` +
+            `linha ${numeroLinha}: "${valorOriginal}".`
+        );
+    }
+
+    return {
+        dia,
+        mes
+    };
+}
+
 function converterData(valor, nomeCampo, numeroLinha) {
     const dataOriginal = textoOuNull(valor);
 
@@ -90,33 +124,31 @@ function converterData(valor, nomeCampo, numeroLinha) {
 
     if (!correspondencia) {
         throw new Error(
-            `Data inválida no campo "${nomeCampo}", linha ${numeroLinha}: ` +
-            `"${dataOriginal}".`
+            `Data inválida no campo "${nomeCampo}", ` +
+            `linha ${numeroLinha}: "${dataOriginal}".`
         );
     }
 
-    const [, primeiroTexto, segundoTexto, anoTexto] = correspondencia;
+    const [, primeiroTexto, segundoTexto, anoTexto] =
+        correspondencia;
 
     const primeiro = Number(primeiroTexto);
     const segundo = Number(segundoTexto);
     const ano = Number(anoTexto);
 
-    let dia;
-    let mes;
+    const { dia, mes } = identificarDiaMes(
+        primeiro,
+        segundo,
+        nomeCampo,
+        numeroLinha,
+        dataOriginal
+    );
 
-    if (primeiro > 12 && segundo <= 12) {
-        dia = primeiro;
-        mes = segundo;
-    } else if (segundo > 12 && primeiro <= 12) {
-        mes = primeiro;
-        dia = segundo;
-    } else {
-        // Em datas ambíguas, preservamos o padrão brasileiro.
-        dia = primeiro;
-        mes = segundo;
-    }
-
-    const dataValidacao = new Date(ano, mes - 1, dia);
+    const dataValidacao = new Date(
+        ano,
+        mes - 1,
+        dia
+    );
 
     const dataValida =
         dataValidacao.getFullYear() === ano &&
@@ -170,23 +202,19 @@ function converterDataHora(valor, nomeCampo, numeroLinha) {
     const segundo = Number(segundoTexto);
     const ano = Number(anoTexto);
 
-    let dia;
-    let mes;
-
-    if (primeiro > 12 && segundo <= 12) {
-        dia = primeiro;
-        mes = segundo;
-    } else if (segundo > 12 && primeiro <= 12) {
-        mes = primeiro;
-        dia = segundo;
-    } else {
-        dia = primeiro;
-        mes = segundo;
-    }
+    const { dia, mes } = identificarDiaMes(
+        primeiro,
+        segundo,
+        nomeCampo,
+        numeroLinha,
+        dataHoraOriginal
+    );
 
     let hora = Number(horaTexto);
     const minuto = Number(minutoTexto);
-    const segundoHorario = Number(segundoHorarioTexto);
+    const segundoHorario = Number(
+        segundoHorarioTexto
+    );
 
     if (periodoTexto) {
         const periodo = periodoTexto.toUpperCase();
@@ -205,6 +233,20 @@ function converterDataHora(valor, nomeCampo, numeroLinha) {
         if (periodo === 'PM' && hora !== 12) {
             hora += 12;
         }
+    }
+
+    if (
+        hora < 0 ||
+        hora > 23 ||
+        minuto < 0 ||
+        minuto > 59 ||
+        segundoHorario < 0 ||
+        segundoHorario > 59
+    ) {
+        throw new Error(
+            `Horário inexistente no campo "${nomeCampo}", ` +
+            `linha ${numeroLinha}: "${dataHoraOriginal}".`
+        );
     }
 
     const dataHora = new Date(
@@ -260,21 +302,44 @@ function validarCabecalhos(registros) {
         'UltMov'
     ];
 
-    const cabecalhosRecebidos = Object.keys(registros[0]);
+    const cabecalhosRecebidos = Object.keys(
+        registros[0]
+    );
 
     const ausentes = cabecalhosEsperados.filter(
-        (cabecalho) => !cabecalhosRecebidos.includes(cabecalho)
+        (cabecalho) =>
+            !cabecalhosRecebidos.includes(cabecalho)
     );
 
     if (ausentes.length > 0) {
         throw new Error(
-            `Cabeçalhos ausentes no CSV: ${ausentes.join(', ')}`
+            `Cabeçalhos ausentes no CSV: ` +
+            ausentes.join(', ')
         );
     }
 }
 
 function mapearEquipamentos(registros) {
     const idsEncontrados = new Set();
+
+    const camposImportados = [
+        'Row ID',
+        'Identificador',
+        'Tipo',
+        'Capacidade',
+        'QrCode',
+        'Lote',
+        'Validade',
+        'Status',
+        'Produto',
+        'ItemPedidoSep',
+        'Descricao',
+        'ItemPedidoEntr',
+        'AuxPDF',
+        'ProdutoAtual',
+        'Cliente',
+        'UltMov'
+    ];
 
     const registrosComLinha = registros.map(
         (registro, indice) => ({
@@ -285,160 +350,166 @@ function mapearEquipamentos(registros) {
 
     const registrosPreenchidos = registrosComLinha.filter(
         ({ registro }) => {
-            return [
-                'Row ID',
-                'Identificador',
-                'Tipo',
-                'Capacidade',
-                'QrCode',
-                'Lote',
-                'Validade',
-                'Status',
-                'Produto',
-                'ItemPedidoSep',
-                'Descricao',
-                'ItemPedidoEntr',
-                'AuxPDF',
-                'ProdutoAtual',
-                'Cliente',
-                'UltMov'
-            ].some((campo) => textoOuNull(registro[campo]) !== null);
+            return camposImportados.some((campo) => {
+                return (
+                    textoOuNull(registro[campo]) !== null
+                );
+            });
         }
     );
 
-    const equipamentosMapeados = registrosPreenchidos.map(
-        ({ registro, numeroLinha }) => {
-            const id = textoOuNull(registro['Row ID']);
-            const identificador = textoOuNull(
-                registro.Identificador
-            );
-            const tipo = textoOuNull(registro.Tipo);
-            const clienteId = textoOuNull(registro.Cliente);
-
-            if (!id) {
-                console.warn(
-                    `Equipamento ignorado por ausência de Row ID — ` +
-                    `linha ${numeroLinha}.`
+    const equipamentosMapeados =
+        registrosPreenchidos.map(
+            ({ registro, numeroLinha }) => {
+                const id = textoOuNull(
+                    registro['Row ID']
                 );
 
-                return null;
-            }
-
-            if (!identificador) {
-                console.warn(
-                    `Equipamento ignorado por ausência de Identificador — ` +
-                    `linha ${numeroLinha}, Row ID="${id}".`
+                const identificador = textoOuNull(
+                    registro.Identificador
                 );
 
-                return null;
-            }
-
-            if (!tipo) {
-                console.warn(
-                    `Equipamento ignorado por ausência de Tipo — ` +
-                    `linha ${numeroLinha}, Row ID="${id}", ` +
-                    `Identificador="${identificador}".`
+                const tipo = textoOuNull(
+                    registro.Tipo
                 );
 
-                return null;
-            }
-
-            if (!clienteId) {
-                console.warn(
-                    `Equipamento ignorado por ausência de Cliente — ` +
-                    `linha ${numeroLinha}, Row ID="${id}", ` +
-                    `Identificador="${identificador}".`
+                const clienteId = textoOuNull(
+                    registro.Cliente
                 );
 
-                return null;
-            }
-
-            const capacidade = converterDecimal(
-                registro.Capacidade,
-                'Capacidade',
-                numeroLinha
-            );
-
-            if (capacidade === null) {
-                console.warn(
-                    `Equipamento ignorado por ausência de Capacidade — ` +
-                    `linha ${numeroLinha}, Row ID="${id}", ` +
-                    `Identificador="${identificador}".`
-                );
-
-                return null;
-            }
-
-            if (idsEncontrados.has(id)) {
-                throw new Error(
-                    `Row ID duplicado no CSV, linha ${numeroLinha}: "${id}".`
-                );
-            }
-
-            idsEncontrados.add(id);
-
-            return {
-                id,
-                identificador,
-                tipo,
-                capacidade,
-
-                qrcode: textoOuNull(
-                    registro.QrCode
-                ),
-
-                lote: textoOuNull(
-                    registro.Lote
-                ),
-
-                validade: converterData(
-                    registro.Validade,
-                    'Validade',
-                    numeroLinha
-                ),
-
-                status: textoOuNull(
+                const status = textoOuNull(
                     registro.Status
-                ),
+                );
 
-                produtoId: textoOuNull(
-                    registro.Produto
-                ),
+                if (!id) {
+                    console.warn(
+                        `Equipamento ignorado por ausência de Row ID — ` +
+                        `linha ${numeroLinha}.`
+                    );
 
-                itemPedidoSepId: textoOuNull(
-                    registro.ItemPedidoSep
-                ),
+                    return null;
+                }
 
-                descricao: textoOuNull(
-                    registro.Descricao
-                ),
+                if (!identificador) {
+                    console.warn(
+                        `Equipamento ignorado por ausência de ` +
+                        `Identificador — linha ${numeroLinha}, ` +
+                        `Row ID="${id}".`
+                    );
 
-                itemPedidoEntrId: textoOuNull(
-                    registro.ItemPedidoEntr
-                ),
+                    return null;
+                }
 
-                auxPdf: converterDataHora(
-                    registro.AuxPDF,
-                    'AuxPDF',
+                if (!tipo) {
+                    console.warn(
+                        `Equipamento ignorado por ausência de Tipo — ` +
+                        `linha ${numeroLinha}, Row ID="${id}", ` +
+                        `Identificador="${identificador}".`
+                    );
+
+                    return null;
+                }
+
+                const capacidade = converterDecimal(
+                    registro.Capacidade,
+                    'Capacidade',
                     numeroLinha
-                ),
+                );
 
-                produtoAtual: textoOuNull(
-                    registro.ProdutoAtual
-                ),
+                if (capacidade === null) {
+                    console.warn(
+                        `Equipamento ignorado por ausência de ` +
+                        `Capacidade — linha ${numeroLinha}, ` +
+                        `Row ID="${id}", ` +
+                        `Identificador="${identificador}".`
+                    );
 
-                clienteId,
+                    return null;
+                }
 
-                ultMov: converterData(
-                    registro.UltMov,
-                    'UltMov',
+                if (idsEncontrados.has(id)) {
+                    throw new Error(
+                        `Row ID duplicado no CSV, ` +
+                        `linha ${numeroLinha}: "${id}".`
+                    );
+                }
+
+                idsEncontrados.add(id);
+
+                if (
+                    clienteId === null &&
+                    String(status || '')
+                        .trim()
+                        .toLowerCase() === 'em cliente'
+                ) {
+                    console.warn(
+                        `Equipamento com status "Em Cliente" sem ` +
+                        `cliente associado — linha ${numeroLinha}, ` +
+                        `Row ID="${id}", ` +
+                        `Identificador="${identificador}".`
+                    );
+                }
+
+                return {
+                    id,
+                    identificador,
+                    tipo,
+                    capacidade,
+
+                    qrcode: textoOuNull(
+                        registro.QrCode
+                    ),
+
+                    lote: textoOuNull(
+                        registro.Lote
+                    ),
+
+                    validade: converterData(
+                        registro.Validade,
+                        'Validade',
+                        numeroLinha
+                    ),
+
+                    status,
+
+                    produtoId: textoOuNull(
+                        registro.Produto
+                    ),
+
+                    itemPedidoSepId: textoOuNull(
+                        registro.ItemPedidoSep
+                    ),
+
+                    descricao: textoOuNull(
+                        registro.Descricao
+                    ),
+
+                    itemPedidoEntrId: textoOuNull(
+                        registro.ItemPedidoEntr
+                    ),
+
+                    auxPdf: converterDataHora(
+                        registro.AuxPDF,
+                        'AuxPDF',
+                        numeroLinha
+                    ),
+
+                    produtoAtual: textoOuNull(
+                        registro.ProdutoAtual
+                    ),
+
+                    clienteId,
+
+                    ultMov: converterData(
+                        registro.UltMov,
+                        'UltMov',
+                        numeroLinha
+                    ),
+
                     numeroLinha
-                ),
-
-                numeroLinha
-            };
-        }
-    );
+                };
+            }
+        );
 
     return equipamentosMapeados.filter(
         (equipamento) => equipamento !== null
@@ -448,7 +519,11 @@ function mapearEquipamentos(registros) {
 function valoresUnicos(valores) {
     return [
         ...new Set(
-            valores.filter((valor) => valor !== null)
+            valores.filter(
+                (valor) =>
+                    valor !== null &&
+                    valor !== undefined
+            )
         )
     ];
 }
@@ -485,7 +560,8 @@ async function importarEquipRecip() {
             mapearEquipamentos(registros);
 
         console.log(
-            `Registros encontrados no CSV: ${registros.length}`
+            `Registros encontrados no CSV: ` +
+            `${registros.length}`
         );
 
         console.log(
@@ -495,45 +571,48 @@ async function importarEquipRecip() {
 
         const clienteIds = valoresUnicos(
             equipamentosMapeados.map(
-                (equipamento) => equipamento.clienteId
+                (equipamento) =>
+                    equipamento.clienteId
             )
         );
 
         const produtoIds = valoresUnicos(
             equipamentosMapeados.map(
-                (equipamento) => equipamento.produtoId
-            )
-        );
-
-        const itemPedidoSepIds = valoresUnicos(
-            equipamentosMapeados.map(
-                (equipamento) => equipamento.itemPedidoSepId
-            )
-        );
-
-        const itemPedidoEntrIds = valoresUnicos(
-            equipamentosMapeados.map(
-                (equipamento) => equipamento.itemPedidoEntrId
+                (equipamento) =>
+                    equipamento.produtoId
             )
         );
 
         const itemPedidoIds = valoresUnicos([
-            ...itemPedidoSepIds,
-            ...itemPedidoEntrIds
+            ...equipamentosMapeados.map(
+                (equipamento) =>
+                    equipamento.itemPedidoSepId
+            ),
+            ...equipamentosMapeados.map(
+                (equipamento) =>
+                    equipamento.itemPedidoEntrId
+            )
         ]);
+
+        const idsCsv = equipamentosMapeados.map(
+            (equipamento) => equipamento.id
+        );
 
         const [
             clientesEncontrados,
             produtosEncontrados,
-            itensEncontrados
+            itensEncontrados,
+            equipamentosJaExistentes
         ] = await Promise.all([
-            db.Cliente.findAll({
-                attributes: ['id'],
-                where: {
-                    id: clienteIds
-                },
-                raw: true
-            }),
+            clienteIds.length > 0
+                ? db.Cliente.findAll({
+                    attributes: ['id'],
+                    where: {
+                        id: clienteIds
+                    },
+                    raw: true
+                })
+                : Promise.resolve([]),
 
             produtoIds.length > 0
                 ? db.Produto.findAll({
@@ -553,6 +632,16 @@ async function importarEquipRecip() {
                     },
                     raw: true
                 })
+                : Promise.resolve([]),
+
+            idsCsv.length > 0
+                ? db.EquipRecip.findAll({
+                    attributes: ['id'],
+                    where: {
+                        id: idsCsv
+                    },
+                    raw: true
+                })
                 : Promise.resolve([])
         ]);
 
@@ -565,141 +654,164 @@ async function importarEquipRecip() {
         const itensExistentes =
             criarConjuntoIds(itensEncontrados);
 
-        let ignoradosClienteInexistente = 0;
-        let produtosRemovidos = 0;
+        const equipamentosExistentes =
+            criarConjuntoIds(equipamentosJaExistentes);
+
+        let clientesInexistentesRemovidos = 0;
+        let produtosInexistentesRemovidos = 0;
         let itensSeparacaoRemovidos = 0;
         let itensEntregaRemovidos = 0;
+        let equipamentosJaImportados = 0;
 
-        const equipamentosValidos = equipamentosMapeados
-            .map((equipamento) => {
-                if (
-                    !clientesExistentes.has(
-                        equipamento.clienteId
-                    )
-                ) {
-                    ignoradosClienteInexistente += 1;
+        const equipamentosParaImportar =
+            equipamentosMapeados
+                .map((equipamento) => {
+                    if (
+                        equipamentosExistentes.has(
+                            equipamento.id
+                        )
+                    ) {
+                        equipamentosJaImportados += 1;
 
-                    console.warn(
-                        `Equipamento ignorado porque o cliente não existe — ` +
-                        `linha ${equipamento.numeroLinha}, ` +
-                        `Row ID="${equipamento.id}", ` +
-                        `Cliente="${equipamento.clienteId}".`
-                    );
+                        return null;
+                    }
 
-                    return null;
-                }
+                    const equipamentoAjustado = {
+                        ...equipamento
+                    };
 
-                const equipamentoAjustado = {
-                    ...equipamento
-                };
+                    /*
+                     * Cliente vazio é válido.
+                     *
+                     * Somente removemos a referência quando existe
+                     * um ID preenchido, mas esse cliente não foi
+                     * encontrado no banco.
+                     */
+                    if (
+                        equipamentoAjustado.clienteId !==
+                            null &&
+                        !clientesExistentes.has(
+                            equipamentoAjustado.clienteId
+                        )
+                    ) {
+                        clientesInexistentesRemovidos += 1;
 
-                /*
-                 * Produto é opcional.
-                 * Se a referência estiver preenchida, mas o produto não
-                 * existir, preservamos o equipamento e removemos apenas
-                 * a referência inválida.
-                 */
-                if (
-                    equipamentoAjustado.produtoId !== null &&
-                    !produtosExistentes.has(
-                        equipamentoAjustado.produtoId
-                    )
-                ) {
-                    produtosRemovidos += 1;
+                        console.warn(
+                            `Referência de Cliente removida por ` +
+                            `inexistência — linha ` +
+                            `${equipamento.numeroLinha}, ` +
+                            `Row ID="${equipamento.id}", ` +
+                            `Cliente="${equipamento.clienteId}".`
+                        );
 
-                    console.warn(
-                        `Referência de Produto removida por inexistência — ` +
-                        `linha ${equipamento.numeroLinha}, ` +
-                        `Row ID="${equipamento.id}", ` +
-                        `Produto="${equipamento.produtoId}".`
-                    );
+                        equipamentoAjustado.clienteId = null;
+                    }
 
-                    equipamentoAjustado.produtoId = null;
-                }
+                    if (
+                        equipamentoAjustado.clienteId ===
+                            null &&
+                        String(
+                            equipamentoAjustado.status || ''
+                        )
+                            .trim()
+                            .toLowerCase() === 'em cliente'
+                    ) {
+                        console.warn(
+                            `Equipamento com status "Em Cliente" ` +
+                            `sem cliente válido — linha ` +
+                            `${equipamento.numeroLinha}, ` +
+                            `Row ID="${equipamento.id}", ` +
+                            `Identificador="` +
+                            `${equipamento.identificador}".`
+                        );
+                    }
 
-                /*
-                 * Alguns itens de pedido podem ter sido ignorados nas
-                 * importações anteriores. As referências opcionais são
-                 * transformadas em NULL quando o item não existe.
-                 */
-                if (
-                    equipamentoAjustado.itemPedidoSepId !== null &&
-                    !itensExistentes.has(
-                        equipamentoAjustado.itemPedidoSepId
-                    )
-                ) {
-                    itensSeparacaoRemovidos += 1;
+                    if (
+                        equipamentoAjustado.produtoId !==
+                            null &&
+                        !produtosExistentes.has(
+                            equipamentoAjustado.produtoId
+                        )
+                    ) {
+                        produtosInexistentesRemovidos += 1;
 
-                    console.warn(
-                        `Referência ItemPedidoSep removida — ` +
-                        `linha ${equipamento.numeroLinha}, ` +
-                        `Row ID="${equipamento.id}", ` +
-                        `ItemPedidoSep="${equipamento.itemPedidoSepId}".`
-                    );
+                        console.warn(
+                            `Referência de Produto removida por ` +
+                            `inexistência — linha ` +
+                            `${equipamento.numeroLinha}, ` +
+                            `Row ID="${equipamento.id}", ` +
+                            `Produto="${equipamento.produtoId}".`
+                        );
 
-                    equipamentoAjustado.itemPedidoSepId = null;
-                }
+                        equipamentoAjustado.produtoId = null;
+                    }
 
-                if (
-                    equipamentoAjustado.itemPedidoEntrId !== null &&
-                    !itensExistentes.has(
-                        equipamentoAjustado.itemPedidoEntrId
-                    )
-                ) {
-                    itensEntregaRemovidos += 1;
+                    if (
+                        equipamentoAjustado
+                            .itemPedidoSepId !== null &&
+                        !itensExistentes.has(
+                            equipamentoAjustado
+                                .itemPedidoSepId
+                        )
+                    ) {
+                        itensSeparacaoRemovidos += 1;
 
-                    console.warn(
-                        `Referência ItemPedidoEntr removida — ` +
-                        `linha ${equipamento.numeroLinha}, ` +
-                        `Row ID="${equipamento.id}", ` +
-                        `ItemPedidoEntr="${equipamento.itemPedidoEntrId}".`
-                    );
+                        console.warn(
+                            `Referência ItemPedidoSep removida — ` +
+                            `linha ${equipamento.numeroLinha}, ` +
+                            `Row ID="${equipamento.id}", ` +
+                            `ItemPedidoSep="` +
+                            `${equipamento.itemPedidoSepId}".`
+                        );
 
-                    equipamentoAjustado.itemPedidoEntrId = null;
-                }
+                        equipamentoAjustado
+                            .itemPedidoSepId = null;
+                    }
 
-                delete equipamentoAjustado.numeroLinha;
+                    if (
+                        equipamentoAjustado
+                            .itemPedidoEntrId !== null &&
+                        !itensExistentes.has(
+                            equipamentoAjustado
+                                .itemPedidoEntrId
+                        )
+                    ) {
+                        itensEntregaRemovidos += 1;
 
-                return equipamentoAjustado;
-            })
-            .filter((equipamento) => equipamento !== null);
+                        console.warn(
+                            `Referência ItemPedidoEntr removida — ` +
+                            `linha ${equipamento.numeroLinha}, ` +
+                            `Row ID="${equipamento.id}", ` +
+                            `ItemPedidoEntr="` +
+                            `${equipamento.itemPedidoEntrId}".`
+                        );
 
-        if (equipamentosValidos.length === 0) {
-            throw new Error(
-                'Nenhum equipamento válido permaneceu para importação.'
-            );
-        }
+                        equipamentoAjustado
+                            .itemPedidoEntrId = null;
+                    }
 
-        const ids = equipamentosValidos.map(
-            (equipamento) => equipamento.id
-        );
+                    delete equipamentoAjustado.numeroLinha;
 
-        const equipamentosExistentes =
-            await db.EquipRecip.findAll({
-                attributes: ['id'],
-                where: {
-                    id: ids
-                },
-                raw: true
-            });
-
-        if (equipamentosExistentes.length > 0) {
-            throw new Error(
-                'A importação foi cancelada porque estes equipamentos ' +
-                'já existem no banco: ' +
-                equipamentosExistentes
-                    .map((equipamento) => equipamento.id)
-                    .join(', ')
-            );
-        }
+                    return equipamentoAjustado;
+                })
+                .filter(
+                    (equipamento) =>
+                        equipamento !== null
+                );
 
         console.log(
-            `Equipamentos ignorados por cliente inexistente: ` +
-            `${ignoradosClienteInexistente}`
+            `Equipamentos já existentes e ignorados: ` +
+            `${equipamentosJaImportados}`
         );
 
         console.log(
-            `Referências de produtos removidas: ${produtosRemovidos}`
+            `Referências de cliente inexistentes removidas: ` +
+            `${clientesInexistentesRemovidos}`
+        );
+
+        console.log(
+            `Referências de produto inexistentes removidas: ` +
+            `${produtosInexistentesRemovidos}`
         );
 
         console.log(
@@ -713,14 +825,27 @@ async function importarEquipRecip() {
         );
 
         console.log(
-            `Equipamentos válidos para importação: ` +
-            `${equipamentosValidos.length}`
+            `Equipamentos pendentes para importação: ` +
+            `${equipamentosParaImportar.length}`
         );
+
+        if (equipamentosParaImportar.length === 0) {
+            console.log(
+                'Nenhum equipamento novo precisa ser importado.'
+            );
+
+            return;
+        }
+
+        const idsParaImportar =
+            equipamentosParaImportar.map(
+                (equipamento) => equipamento.id
+            );
 
         await db.sequelize.transaction(
             async (transaction) => {
                 await db.EquipRecip.bulkCreate(
-                    equipamentosValidos,
+                    equipamentosParaImportar,
                     {
                         transaction,
                         validate: true
@@ -732,27 +857,39 @@ async function importarEquipRecip() {
         const quantidadeImportada =
             await db.EquipRecip.count({
                 where: {
-                    id: ids
+                    id: idsParaImportar
                 }
             });
 
         if (
             quantidadeImportada !==
-            equipamentosValidos.length
+            equipamentosParaImportar.length
         ) {
             throw new Error(
-                `A conferência falhou: deveriam ser importados ` +
-                `${equipamentosValidos.length} equipamentos, ` +
-                `mas foram encontrados ${quantidadeImportada} no banco.`
+                `A conferência falhou: deveriam ser ` +
+                `importados ` +
+                `${equipamentosParaImportar.length} ` +
+                `equipamentos, mas foram encontrados ` +
+                `${quantidadeImportada} no banco.`
             );
         }
 
         console.log(
-            'Importação de equipamentos e recipientes concluída com sucesso.'
+            'Importação de equipamentos e recipientes ' +
+            'concluída com sucesso.'
         );
 
         console.log(
-            `Equipamentos importados: ${quantidadeImportada}`
+            `Equipamentos importados nesta execução: ` +
+            `${quantidadeImportada}`
+        );
+
+        console.log(
+            `Total de equipamentos do CSV já presentes no banco: ` +
+            `${
+                quantidadeImportada +
+                equipamentosJaImportados
+            }`
         );
     } catch (error) {
         console.error(
@@ -760,6 +897,7 @@ async function importarEquipRecip() {
         );
 
         console.error(error.message);
+
         process.exitCode = 1;
     } finally {
         await db.sequelize.close();
