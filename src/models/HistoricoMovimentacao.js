@@ -99,6 +99,30 @@ module.exports = (sequelize) => {
                 type: DataTypes.UUID,
                 allowNull: true,
                 field: 'cliente_id'
+            },
+
+            movimentarDe: {
+                type: DataTypes.STRING,
+                allowNull: true,
+                field: 'movimentar_de'
+            },
+
+            classe: {
+                type: DataTypes.STRING,
+                allowNull: true,
+                field: 'classe'
+            },
+
+            doc: {
+                type: DataTypes.STRING,
+                allowNull: true,
+                field: 'doc'
+            },
+
+            poss: {
+                type: DataTypes.STRING,
+                allowNull: true,
+                field: 'poss'
             }
         },
         {
