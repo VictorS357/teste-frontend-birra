@@ -177,44 +177,30 @@ Em razão dessas inconsistências, o tempo necessário para concluir a migraçã
 
 Entretanto, a adoção dessas verificações permitiu preservar a integridade referencial do banco de dados e evitar a inserção de registros incompletos ou inconsistentes.
 
-## Tabela Comprovantes
+## Tabelas ausentes na exportação
 
-A exportação recebida não continha a tabela de dados correspondente a `Comprovantes`.
+Durante a migração, algumas tabelas previstas na aplicação não estavam presentes no material exportado recebido.
 
-Foram disponibilizados apenas os arquivos de imagem dos comprovantes, sem os registros estruturados que originalmente armazenavam seus metadados.
+Foram identificadas como ausentes:
 
-O Model da aplicação prevê informações como:
+- `Comprovantes`;
+- `Files`;
+- `Etiquetas`.
 
-- identificador do registro;
-- caminho do arquivo;
-- nome do arquivo;
-- data de criação;
-- usuário responsável pela última modificação;
-- tipo MIME.
+Em alguns casos, foram disponibilizados apenas arquivos físicos, como imagens, mas sem os registros estruturados correspondentes no AppSheet.
 
-Como esses metadados não estavam presentes na exportação, optou-se por não criar registros artificiais no banco de dados a partir somente das imagens.
-
-Embora alguns dados, como nome e extensão do arquivo, pudessem ser inferidos, não seria possível reconstruir com segurança informações como `id`, `createTime` e `lastModifiedBy`.
-
-Por esse motivo, a tabela `comprovantes` não foi importada nesta etapa da migração.
-
-Os arquivos de imagem foram preservados para que possam ser associados posteriormente caso uma fonte confiável contendo os metadados originais seja disponibilizada.
-
-## Tabela Files
-
-A exportação recebida também não continha a tabela estruturada correspondente a `Files`.
-
-Sem os registros originais da tabela, não é possível reconstruir com segurança:
+Sem os dados originais das tabelas, não é possível reconstruir com segurança informações como:
 
 - identificadores;
-- caminhos;
-- nomes de arquivo;
 - relacionamentos com outras entidades;
 - datas;
-- metadados adicionais eventualmente existentes no AppSheet.
+- caminhos;
+- nomes de arquivo;
+- metadados;
+- demais atributos específicos de cada registro.
 
-Por esse motivo, a tabela `files` não foi importada nesta etapa da migração.
+Por esse motivo, optou-se por não criar registros artificiais no banco de dados.
 
-Caso os arquivos físicos estejam disponíveis, eles podem ser preservados separadamente, mas não devem gerar registros artificiais no banco sem uma fonte confiável para os respectivos metadados.
+As estruturas das tabelas e seus Models permanecem no sistema para uso futuro e para criação de novos registros.
 
-A estrutura da tabela e seu Model permanecem no sistema para uso futuro e para novos registros.
+Caso uma exportação estruturada dessas tabelas seja disponibilizada posteriormente, a importação poderá ser realizada em uma nova etapa.
