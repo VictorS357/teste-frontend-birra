@@ -48,7 +48,7 @@ module.exports = (sequelize) => {
             },
 
             parecerDoResponsavel: {
-                type: DataTypes.STRING,
+                type: DataTypes.TEXT,
                 allowNull: true,
                 field: 'parecer_do_responsavel'
             },
@@ -66,7 +66,7 @@ module.exports = (sequelize) => {
             },
 
             parecerDoCliente: {
-                type: DataTypes.STRING,
+                type: DataTypes.TEXT,
                 allowNull: true,
                 field: 'parecer_do_cliente'
             },
