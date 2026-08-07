@@ -52,6 +52,11 @@ module.exports = (sequelize) => {
             foreignKey: 'responsavelId',
             as: 'responsavel'
         });
+
+        ImagemAcao.belongsTo(models.Planejamento, {
+            foreignKey: 'acaoId',
+            as: 'acao'
+        });
     };
 
     return ImagemAcao;
