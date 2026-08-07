@@ -1,11 +1,14 @@
 const express = require('express');
 
+const pedidoController = require(
+    '../controllers/pedidoController'
+);
+
 const router = express.Router();
 
-router.get('/', (req, res) => {
-    return res.status(200).json({
-        message: 'Rota de pedidos funcionando'
-    });
-});
+router.get(
+    '/',
+    pedidoController.listarPedidos
+);
 
 module.exports = router;
