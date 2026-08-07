@@ -176,3 +176,26 @@ Além do desenvolvimento dos scripts de importação, foi necessário:
 Em razão dessas inconsistências, o tempo necessário para concluir a migração foi superior ao inicialmente estimado.
 
 Entretanto, a adoção dessas verificações permitiu preservar a integridade referencial do banco de dados e evitar a inserção de registros incompletos ou inconsistentes.
+
+## Tabela Comprovantes
+
+A exportação recebida não continha a tabela de dados correspondente a `Comprovantes`.
+
+Foram disponibilizados apenas os arquivos de imagem dos comprovantes, sem os registros estruturados que originalmente armazenavam seus metadados.
+
+O Model da aplicação prevê informações como:
+
+- identificador do registro;
+- caminho do arquivo;
+- nome do arquivo;
+- data de criação;
+- usuário responsável pela última modificação;
+- tipo MIME.
+
+Como esses metadados não estavam presentes na exportação, optou-se por não criar registros artificiais no banco de dados a partir somente das imagens.
+
+Embora alguns dados, como nome e extensão do arquivo, pudessem ser inferidos, não seria possível reconstruir com segurança informações como `id`, `createTime` e `lastModifiedBy`.
+
+Por esse motivo, a tabela `comprovantes` não foi importada nesta etapa da migração.
+
+Os arquivos de imagem foram preservados para que possam ser associados posteriormente caso uma fonte confiável contendo os metadados originais seja disponibilizada.
