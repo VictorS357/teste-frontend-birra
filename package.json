@@ -16,13 +16,16 @@
     "importar:historico-movimentacoes": "node scripts/importacao/importar-historico-movimentacoes.js",
     "importar:equip-cliente": "node scripts/importacao/importar-equip-cliente.js",
     "importar:planejamento": "node scripts/importacao/importar-planejamento.js",
-    "importar:imagens-acao": "node scripts/importacao/importar-imagens-acao.js"
+    "importar:imagens-acao": "node scripts/importacao/importar-imagens-acao.js",
+    "dev": "node src/server.js",
+    "start": "node src/server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "cors": "^2.8.6",
     "csv-parse": "^7.0.2",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
@@ -30,6 +33,7 @@
     "sequelize": "^6.37.8"
   },
   "devDependencies": {
+    "nodemon": "^3.1.14",
     "sequelize-cli": "^6.6.5"
   }
 }
