@@ -185,7 +185,11 @@ Foram identificadas como ausentes:
 
 - `Comprovantes`;
 - `Files`;
-- `Etiquetas`.
+- `Etiquetas`;
+- `MovMassaPai`;
+- `MovMassaFilho`;
+- `RotasDeChopeiraPai`;
+- `RotasDeChopeiraFilho`.
 
 Em alguns casos, foram disponibilizados apenas arquivos físicos, como imagens, mas sem os registros estruturados correspondentes no AppSheet.
 
