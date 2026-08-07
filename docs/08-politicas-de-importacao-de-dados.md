@@ -199,3 +199,22 @@ Embora alguns dados, como nome e extensão do arquivo, pudessem ser inferidos, n
 Por esse motivo, a tabela `comprovantes` não foi importada nesta etapa da migração.
 
 Os arquivos de imagem foram preservados para que possam ser associados posteriormente caso uma fonte confiável contendo os metadados originais seja disponibilizada.
+
+## Tabela Files
+
+A exportação recebida também não continha a tabela estruturada correspondente a `Files`.
+
+Sem os registros originais da tabela, não é possível reconstruir com segurança:
+
+- identificadores;
+- caminhos;
+- nomes de arquivo;
+- relacionamentos com outras entidades;
+- datas;
+- metadados adicionais eventualmente existentes no AppSheet.
+
+Por esse motivo, a tabela `files` não foi importada nesta etapa da migração.
+
+Caso os arquivos físicos estejam disponíveis, eles podem ser preservados separadamente, mas não devem gerar registros artificiais no banco sem uma fonte confiável para os respectivos metadados.
+
+A estrutura da tabela e seu Model permanecem no sistema para uso futuro e para novos registros.
