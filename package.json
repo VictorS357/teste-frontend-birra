@@ -15,7 +15,8 @@
     "importar:equip-recip": "node scripts/importacao/importar-equip-recip.js",
     "importar:historico-movimentacoes": "node scripts/importacao/importar-historico-movimentacoes.js",
     "importar:equip-cliente": "node scripts/importacao/importar-equip-cliente.js",
-    "importar:planejamento": "node scripts/importacao/importar-planejamento.js"
+    "importar:planejamento": "node scripts/importacao/importar-planejamento.js",
+    "importar:imagens-acao": "node scripts/importacao/importar-imagens-acao.js"
   },
   "keywords": [],
   "author": "",
