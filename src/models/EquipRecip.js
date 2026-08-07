@@ -132,11 +132,6 @@ module.exports = (sequelize) => {
             foreignKey: 'equipRecipId',
             as: 'movimentacoesMassa'
         });
-
-        EquipRecip.hasMany(models.HistoricoMovimentacoes, {
-            foreignKey: 'equipRecipId',
-            as: 'historicos'
-        });
     }
 
     return EquipRecip;

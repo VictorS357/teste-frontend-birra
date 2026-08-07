@@ -11,10 +11,10 @@ module.exports = (sequelize) => {
                 field: 'id'
             },
 
-            equipRecipId: {
-                type: DataTypes.UUID,
+            equipRecip: {
+                type: DataTypes.STRING,
                 allowNull: false,
-                field: 'equip_recip_id'
+                field: 'equip_recip'
             },
 
             data: {
@@ -71,22 +71,22 @@ module.exports = (sequelize) => {
                 field: 'movimentar_para'
             },
 
-            itmSepId: {
-                type: DataTypes.UUID,
+            itmSep: {
+                type: DataTypes.BOOLEAN,
                 allowNull: true,
-                field: 'itm_sep_id'
+                field: 'itm_sep'
             },
 
-            itmEntrId: {
-                type: DataTypes.UUID,
+            itmEntr: {
+                type: DataTypes.BOOLEAN,
                 allowNull: true,
-                field: 'itm_entr_id'
+                field: 'itm_entr'
             },
 
-            itmConcId: {
-                type: DataTypes.UUID,
+            itmConc: {
+                type: DataTypes.BOOLEAN,
                 allowNull: true,
-                field: 'itm_conc_id'
+                field: 'itm_conc'
             },
 
             nivel: {
@@ -132,11 +132,6 @@ module.exports = (sequelize) => {
     );
 
     HistoricoMovimentacoes.associate = (models) => {
-        HistoricoMovimentacoes.belongsTo(models.EquipRecip, {
-            foreignKey: 'equipRecipId',
-            as: 'equipamento'
-        });
-
         HistoricoMovimentacoes.belongsTo(models.Usuario, {
             foreignKey: 'usuarioId',
             as: 'usuario'
@@ -150,21 +145,6 @@ module.exports = (sequelize) => {
         HistoricoMovimentacoes.belongsTo(models.Cliente, {
             foreignKey: 'clienteId',
             as: 'cliente'
-        });
-
-        HistoricoMovimentacoes.belongsTo(models.ItemPedido, {
-            foreignKey: 'itmSepId',
-            as: 'itemSeparacao'
-        });
-
-        HistoricoMovimentacoes.belongsTo(models.ItemPedido, {
-            foreignKey: 'itmEntrId',
-            as: 'itemEntrega'
-        });
-
-        HistoricoMovimentacoes.belongsTo(models.ItemPedido, {
-            foreignKey: 'itmConcId',
-            as: 'itemConclusao'
         });
     };
 
