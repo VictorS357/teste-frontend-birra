@@ -78,7 +78,7 @@ module.exports = (sequelize) => {
             },
 
             itmEntr: {
-                type: DataTypes.BOOLEAN,
+                type: DataTypes.STRING,
                 allowNull: true,
                 field: 'itm_entr'
             },
