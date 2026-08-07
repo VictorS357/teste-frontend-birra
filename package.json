@@ -13,7 +13,8 @@
     "importar:itens-pedido": "node scripts/importacao/importar-itens-pedido.js",
     "atualizar:clientes-sts-col": "node scripts/importacao/atualizar-sts-col-clientes.js",
     "importar:equip-recip": "node scripts/importacao/importar-equip-recip.js",
-    "importar:historico-movimentacoes": "node scripts/importacao/importar-historico-movimentacoes.js"
+    "importar:historico-movimentacoes": "node scripts/importacao/importar-historico-movimentacoes.js",
+    "importar:equip-cliente": "node scripts/importacao/importar-equip-cliente.js"
   },
   "keywords": [],
   "author": "",
