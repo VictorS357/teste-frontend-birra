@@ -14,7 +14,8 @@
     "atualizar:clientes-sts-col": "node scripts/importacao/atualizar-sts-col-clientes.js",
     "importar:equip-recip": "node scripts/importacao/importar-equip-recip.js",
     "importar:historico-movimentacoes": "node scripts/importacao/importar-historico-movimentacoes.js",
-    "importar:equip-cliente": "node scripts/importacao/importar-equip-cliente.js"
+    "importar:equip-cliente": "node scripts/importacao/importar-equip-cliente.js",
+    "importar:planejamento": "node scripts/importacao/importar-planejamento.js"
   },
   "keywords": [],
   "author": "",
