@@ -1,7 +1,7 @@
 const db = require('../models');
 
 async function listarProdutos() {
-    const produtos = await db.Produtos.findAll({
+    const produtos = await db.Produto.findAll({
         order: [
             ['descricao', 'ASC']
         ]
