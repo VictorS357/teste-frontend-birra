@@ -6,6 +6,7 @@ const clienteRoutes = require('./routes/clienteRoutes');
 const produtoRoutes = require('./routes/produtoRoutes');
 const ItemPedidoRoutes = require('./routes/itemPedidoRoutes');
 const equipRecipRoutes = require('./routes/equipRecipRoutes');
+const equipClienteRoutes = require('./routes/equipClienteRoutes');
 
 const app = express();
 
@@ -23,5 +24,6 @@ app.use('/api/clientes', clienteRoutes);
 app.use('/api/produtos', produtoRoutes);
 app.use('/api/itens-pedido', ItemPedidoRoutes);
 app.use('/api/equip-recip', equipRecipRoutes);
+app.use('/api/equip-clientes', equipClienteRoutes);
 
 module.exports = app;
