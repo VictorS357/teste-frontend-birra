@@ -9,6 +9,7 @@ const equipRecipRoutes = require('./routes/equipRecipRoutes');
 const equipClienteRoutes = require('./routes/equipClienteRoutes');
 const historicoMovimentacaoRoutes = require('./routes/historicoMovimentacaoRoutes');
 const planejamentoRoutes = require('./routes/planejamentoRoutes');
+const imagemAcaoRoutes = require('./routes/imagemAcaoRoutes');
 
 const app = express();
 
@@ -29,5 +30,6 @@ app.use('/api/equip-recip', equipRecipRoutes);
 app.use('/api/equip-clientes', equipClienteRoutes);
 app.use('/api/historico-movimentacoes', historicoMovimentacaoRoutes);
 app.use('/api/planejamentos', planejamentoRoutes);
+app.use('/api/imagens-acao', imagemAcaoRoutes);
 
 module.exports = app;
