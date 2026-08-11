@@ -11,6 +11,7 @@ const historicoMovimentacaoRoutes = require('./routes/historicoMovimentacaoRoute
 const planejamentoRoutes = require('./routes/planejamentoRoutes');
 const imagemAcaoRoutes = require('./routes/imagemAcaoRoutes');
 const tabelaPrecoRoutes = require('./routes/tabelaPrecoRoutes');
+const usuarioRoutes = require('./routes/usuarioRoutes');
 
 const app = express();
 
@@ -33,5 +34,6 @@ app.use('/api/historico-movimentacoes', historicoMovimentacaoRoutes);
 app.use('/api/planejamentos', planejamentoRoutes);
 app.use('/api/imagens-acao', imagemAcaoRoutes);
 app.use('/api/tabela-precos', tabelaPrecoRoutes);
+app.use('/api/usuarios', usuarioRoutes);
 
 module.exports = app;
