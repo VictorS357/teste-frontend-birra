@@ -85,7 +85,7 @@ module.exports = (sequelize) => {
             as: 'imagensAcoes'
         });
 
-        Usuario.hasMany(models.HistoricoMovimentacoes, {
+        Usuario.hasMany(models.HistoricoMovimentacao, {
             foreignKey: 'usuarioId',
             as: 'historicos'
         });

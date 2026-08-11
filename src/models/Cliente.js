@@ -129,7 +129,7 @@ module.exports = (sequelize) => {
             as: 'equipamentos'
         });
 
-        Cliente.hasMany(models.HistoricoMovimentacoes, {
+        Cliente.hasMany(models.HistoricoMovimentacao, {
             foreignKey: 'clienteId',
             as: 'historicos'
         });

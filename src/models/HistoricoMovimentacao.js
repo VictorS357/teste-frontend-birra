@@ -1,8 +1,8 @@
 const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-    const HistoricoMovimentacoes = sequelize.define(
-        'HistoricoMovimentacoes',
+    const HistoricoMovimentacao = sequelize.define(
+        'HistoricoMovimentacao',
         {
             id: {
                 type: DataTypes.UUID,
@@ -131,22 +131,22 @@ module.exports = (sequelize) => {
         }
     );
 
-    HistoricoMovimentacoes.associate = (models) => {
-        HistoricoMovimentacoes.belongsTo(models.Usuario, {
+    HistoricoMovimentacao.associate = (models) => {
+        HistoricoMovimentacao.belongsTo(models.Usuario, {
             foreignKey: 'usuarioId',
             as: 'usuario'
         });
 
-        HistoricoMovimentacoes.belongsTo(models.Produto, {
+        HistoricoMovimentacao.belongsTo(models.Produto, {
             foreignKey: 'produtoId',
             as: 'produto'
         });
 
-        HistoricoMovimentacoes.belongsTo(models.Cliente, {
+        HistoricoMovimentacao.belongsTo(models.Cliente, {
             foreignKey: 'clienteId',
             as: 'cliente'
         });
     };
 
-    return HistoricoMovimentacoes;
+    return HistoricoMovimentacao;
 };
