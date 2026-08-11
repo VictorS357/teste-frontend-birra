@@ -1,4 +1,4 @@
-const historicoMovimentacaoService = require('../services/HistoricoMovimentacaoService');
+const historicoMovimentacaoService = require('../services/historicoMovimentacaoService');
 
 async function listarHistoricoMovimentacoes(req, res) {
     try {

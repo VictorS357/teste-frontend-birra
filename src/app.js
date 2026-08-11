@@ -8,6 +8,7 @@ const ItemPedidoRoutes = require('./routes/itemPedidoRoutes');
 const equipRecipRoutes = require('./routes/equipRecipRoutes');
 const equipClienteRoutes = require('./routes/equipClienteRoutes');
 const historicoMovimentacaoRoutes = require('./routes/historicoMovimentacaoRoutes');
+const planejamentoRoutes = require('./routes/planejamentoRoutes');
 
 const app = express();
 
@@ -27,5 +28,6 @@ app.use('/api/itens-pedido', ItemPedidoRoutes);
 app.use('/api/equip-recip', equipRecipRoutes);
 app.use('/api/equip-clientes', equipClienteRoutes);
 app.use('/api/historico-movimentacoes', historicoMovimentacaoRoutes);
+app.use('/api/planejamentos', planejamentoRoutes);
 
 module.exports = app;
