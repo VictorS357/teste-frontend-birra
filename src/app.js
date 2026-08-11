@@ -4,12 +4,13 @@ const cors = require('cors');
 const pedidoRoutes = require('./routes/pedidoRoutes');
 const clienteRoutes = require('./routes/clienteRoutes');
 const produtoRoutes = require('./routes/produtoRoutes');
-const ItemPedidoRoutes = require('./routes/itemPedidoRoutes');
+const itemPedidoRoutes = require('./routes/itemPedidoRoutes');
 const equipRecipRoutes = require('./routes/equipRecipRoutes');
 const equipClienteRoutes = require('./routes/equipClienteRoutes');
 const historicoMovimentacaoRoutes = require('./routes/historicoMovimentacaoRoutes');
 const planejamentoRoutes = require('./routes/planejamentoRoutes');
 const imagemAcaoRoutes = require('./routes/imagemAcaoRoutes');
+const tabelaPrecoRoutes = require('./routes/tabelaPrecoRoutes');
 
 const app = express();
 
@@ -25,11 +26,12 @@ app.get('/api/health', (req, res) => {
 app.use('/api/pedidos', pedidoRoutes);
 app.use('/api/clientes', clienteRoutes);
 app.use('/api/produtos', produtoRoutes);
-app.use('/api/itens-pedido', ItemPedidoRoutes);
+app.use('/api/itens-pedido', itemPedidoRoutes);
 app.use('/api/equip-recip', equipRecipRoutes);
 app.use('/api/equip-clientes', equipClienteRoutes);
 app.use('/api/historico-movimentacoes', historicoMovimentacaoRoutes);
 app.use('/api/planejamentos', planejamentoRoutes);
 app.use('/api/imagens-acao', imagemAcaoRoutes);
+app.use('/api/tabela-precos', tabelaPrecoRoutes);
 
 module.exports = app;
