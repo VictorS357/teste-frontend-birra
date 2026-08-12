@@ -3,8 +3,8 @@ import { Routes, Route } from "react-router";
 import Layout from './components/Layout';
 import Dashboard from './pages/Dashboard';
 import Clientes from './pages/Clientes';
-import Produtos from './pages/Pedidos';
-import Pedidos from './pages/Produtos';
+import Produtos from './pages/Produtos';
+import Pedidos from './pages/Pedidos';
 
 function App() {
   return (
