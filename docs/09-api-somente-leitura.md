@@ -12,7 +12,9 @@ A API será utilizada para:
 - validar o acesso ao novo banco de dados relacional;
 - analisar o comportamento da aplicação utilizando o MySQL;
 - medir o volume de dados transferido pelas tabelas;
-- comparar o volume das consultas com os dados anteriormente obtidos através da API do AppSheet.
+- comparar o volume das consultas com os dados anteriormente obtidos através da API do AppSheet;
+- fornecer os dados utilizados pelo painel de visualização e análise da base migrada;
+- permitir que o frontend mensure o tamanho e o tempo de transferência das respostas completas.
 
 Por esse motivo, inicialmente serão implementados apenas endpoints HTTP `GET`.
 
@@ -160,6 +162,10 @@ O campo `total` informa a quantidade de registros retornados.
 
 O campo `data` contém os registros completos da tabela.
 
+A API não adiciona ao JSON métricas calculadas de tamanho ou tempo de transferência.
+
+Essas métricas são coletadas pelo frontend durante a execução das requisições. Dessa forma, a resposta da API permanece representativa dos dados efetivamente transmitidos, enquanto a camada cliente é responsável pela análise do volume recebido e do tempo observado durante a requisição.
+
 ---
 
 # Relacionamentos
@@ -172,12 +178,13 @@ Dessa forma, poderão existir posteriormente duas finalidades distintas de consu
 
 ```text
 Consulta da tabela
-→ dados puros
-→ utilizada para medição
+→ retorna todos os registros da própria entidade
+→ não utiliza relacionamentos
+→ utilizada para medição e visualização da base migrada
 
 Consulta detalhada
-→ utiliza relacionamentos
-→ utilizada para apresentação no frontend
+→ poderá utilizar relacionamentos
+→ poderá ser criada futuramente caso a interface necessite
 ```
 
 ---
