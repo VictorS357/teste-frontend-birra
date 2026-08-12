@@ -103,23 +103,23 @@ function Pedidos() {
             </header>
 
             <div className="metrics-grid">
-                <MetricCard 
+                <MetricCard
                     title="Registros"
                     value={total.toLocaleString('pt-BR')}
                 />
 
-                <MetricCard 
+                <MetricCard
                     title="Tamanho da resposta"
                     value={`${metricas.tamanhoMB.toFixed(2)} MB`}
                 />
 
-                <MetricCard 
+                <MetricCard
                     title="Registros"
                     value={`${metricas.tempoMs.toFixed(0)} ms`}
                 />
             </div>
 
-            <DataTable 
+            <DataTable
                 columns={columns}
                 data={pedidos}
             />
