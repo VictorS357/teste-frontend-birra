@@ -114,7 +114,7 @@ function Pedidos() {
                 />
 
                 <MetricCard
-                    title="Registros"
+                    title="Tempo de carregamento"
                     value={`${metricas.tempoMs.toFixed(0)} ms`}
                 />
             </div>
