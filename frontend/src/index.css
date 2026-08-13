@@ -21,6 +21,7 @@ body {
   padding: 24px;
   background: #1e293b;
   color: white;
+  flex-shrink: 0;
 }
 
 .sidebar h1 {
