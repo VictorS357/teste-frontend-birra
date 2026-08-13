@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-function DataTable({ 
+function DataTable({
   columns = [],
   data = [],
   pageSize = 50
@@ -68,43 +68,35 @@ function DataTable({
           </thead>
 
           <tbody>
-            {dadosDaPagina.map(
-              (row, rowIndex) => (
-                <tr
-                  key={
-                    row.id ??
-                    row.identificador ??
-                    rowIndex
-                  }
-                >
-                  {columns.map(
-                    (column) => (
-                      <td
-                        key={
-                          column.key
-                        }
-                      >
-                        {row[
-                          column.key
-                        ] === null ||
-                          row[
-                          column.key
-                          ] === undefined ||
-                          row[
-                          column.key
-                          ] === ''
-                          ? '-'
-                          : String(
-                            row[
-                            column.key
-                            ]
-                          )}
-                      </td>
-                    )
-                  )}
-                </tr>
-              )
-            )}
+            {dadosDaPagina.map((row, rowIndex) => (
+              <tr
+                key={
+                  row.id ??
+                  row.identificador ??
+                  rowIndex
+                }
+              >
+                {columns.map((column) => {
+                  const valor = row[column.key];
+
+                  const valorExibido =
+                    valor === null ||
+                      valor === undefined ||
+                      valor === ''
+                      ? '-'
+                      : String(valor);
+
+                  return (
+                    <td
+                      key={column.key}
+                      title={valorExibido}
+                    >
+                      {valorExibido}
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

@@ -41,34 +41,40 @@ function Pedidos() {
     }, []);
 
     const columns = [
-        {
-            key: 'identificador',
-            label: 'Identificador'
-        },
-        {
-            key: 'clienteId',
-            label: 'Cliente'
-        },
-        {
-            key: 'data',
-            label: 'Data'
-        },
-        {
-            key: 'hora',
-            label: 'Hora'
-        },
-        {
-            key: 'status',
-            label: 'Status'
-        },
-        {
-            key: 'taxaEntrega',
-            label: 'Taxa de entrega'
-        },
-        {
-            key: 'cidadeEntrega',
-            label: 'Cidade'
-        }
+        { key: 'id', label: 'id' },
+        { key: 'clienteId', label: 'clienteId' },
+        { key: 'responsavelId', label: 'responsavelId' },
+        { key: 'data', label: 'data' },
+        { key: 'hora', label: 'hora' },
+        { key: 'taxaEntrega', label: 'taxaEntrega' },
+        { key: 'localCliente', label: 'localCliente' },
+        { key: 'localPedido', label: 'localPedido' },
+        { key: 'obs', label: 'obs' },
+        { key: 'status', label: 'status' },
+        { key: 'auxOrc', label: 'auxOrc' },
+        { key: 'auxRota', label: 'auxRota' },
+        { key: 'obsColeta', label: 'obsColeta' },
+        { key: 'solicitado', label: 'solicitado' },
+        { key: 'dataLiberacao', label: 'dataLiberacao' },
+        { key: 'usuarioLiberacao', label: 'usuarioLiberacao' },
+        { key: 'dataSeparacao', label: 'dataSeparacao' },
+        { key: 'usuarioSeparacao', label: 'usuarioSeparacao' },
+        { key: 'dataEntrega', label: 'dataEntrega' },
+        { key: 'usuarioEntrega', label: 'usuarioEntrega' },
+        { key: 'dataConclusao', label: 'dataConclusao' },
+        { key: 'usuarioConclusao', label: 'usuarioConclusao' },
+        { key: 'assinatura', label: 'assinatura' },
+        { key: 'comprovanteGerado', label: 'comprovanteGerado' },
+        { key: 'comprovanteEnviado', label: 'comprovanteEnviado' },
+        { key: 'coletadoAut', label: 'coletadoAut' },
+        { key: 'dataHoraColeta', label: 'dataHoraColeta' },
+        { key: 'fotoGas', label: 'fotoGas' },
+        { key: 'cidadeEntrega', label: 'cidadeEntrega' },
+        { key: 'identificador', label: 'identificador' },
+        { key: 'ultNot', label: 'ultNot' },
+        { key: 'revenda', label: 'revenda' },
+        { key: 'fotoCopoEntrega', label: 'fotoCopoEntrega' },
+        { key: 'fotoCopoColeta', label: 'fotoCopoColeta' }
     ];
 
     if (carregando) {
