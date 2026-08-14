@@ -18,7 +18,7 @@ function EquipCliente() {
                 setCarregando(true);
                 setErro(null);
 
-                const resultado = await buscarTabela('comprovantes');
+                const resultado = await buscarTabela('equip_cliente');
 
                 setEquipCliente(resultado.data);
                 setTotal(resultado.total);
