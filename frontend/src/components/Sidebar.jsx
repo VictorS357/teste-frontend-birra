@@ -22,24 +22,12 @@ function Sidebar() {
                     Pedidos
                 </NavLink>
 
-                <NavLink to="/comprovantes">
-                    Comprovantes
-                </NavLink>
-
                 <NavLink to="/equip-cliente">
                     EquipCliente
                 </NavLink>
 
                 <NavLink to="/equip-recip">
                     EquipRecip
-                </NavLink>
-
-                <NavLink to="/etiquetas">
-                    Etiquetas
-                </NavLink>
-
-                <NavLink to="/files">
-                    Files
                 </NavLink>
 
                 <NavLink to="/historico-movimentacoes">
