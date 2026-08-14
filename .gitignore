@@ -1,4 +1,11 @@
 node_modules
 .env
+
 # Dados exportados do AppSheet
 dados/csv/*.csv
+
+# Ignora os arquivos utilizados localmente para análise
+dados/arquivos/*
+
+# Mantém a estrutura da pasta no repositório
+!dados/arquivos/.gitkeep
