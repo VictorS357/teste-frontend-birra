@@ -18,7 +18,7 @@ function TabelaPreco() {
                 setCarregando(true);
                 setErro(null);
 
-                const resultado = await buscarTabela('tabela_preco');
+                const resultado = await buscarTabela('tabela-precos');
 
                 setTabelaPreco(resultado.data);
                 setTotal(resultado.total);

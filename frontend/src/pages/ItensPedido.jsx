@@ -18,7 +18,7 @@ function ItensPedido() {
                 setCarregando(true);
                 setErro(null);
 
-                const resultado = await buscarTabela('itens_pedido');
+                const resultado = await buscarTabela('itens-pedido');
 
                 setItensPedido(resultado.data);
                 setTotal(resultado.total);

@@ -18,7 +18,7 @@ function HistoricoMovimentacoes() {
                 setCarregando(true);
                 setErro(null);
 
-                const resultado = await buscarTabela('historico_movimentacoes');
+                const resultado = await buscarTabela('historico-movimentacoes');
 
                 setHistorico(resultado.data);
                 setTotal(resultado.total);

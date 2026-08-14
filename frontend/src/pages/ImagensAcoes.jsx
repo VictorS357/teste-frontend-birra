@@ -18,7 +18,7 @@ function ImagensAcoes() {
                 setCarregando(true);
                 setErro(null);
 
-                const resultado = await buscarTabela('imagens_acoes');
+                const resultado = await buscarTabela('imagens-acao');
 
                 setImagensAcoes(resultado.data);
                 setTotal(resultado.total);

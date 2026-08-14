@@ -18,7 +18,7 @@ function Planejamento() {
                 setCarregando(true);
                 setErro(null);
 
-                const resultado = await buscarTabela('planejamento');
+                const resultado = await buscarTabela('planejamentos');
 
                 setPlanejamento(resultado.data);
                 setTotal(resultado.total);

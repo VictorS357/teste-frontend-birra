@@ -18,7 +18,7 @@ function EquipRecip() {
                 setCarregando(true);
                 setErro(null);
 
-                const resultado = await buscarTabela('equip_recip');
+                const resultado = await buscarTabela('equip-recip');
 
                 setEquipRecip(resultado.data);
                 setTotal(resultado.total);

@@ -18,7 +18,7 @@ function EquipCliente() {
                 setCarregando(true);
                 setErro(null);
 
-                const resultado = await buscarTabela('equip_cliente');
+                const resultado = await buscarTabela('equip-clientes');
 
                 setEquipCliente(resultado.data);
                 setTotal(resultado.total);
