@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import MetricCard from "../components/MetricCard";
 import DataTable from "../components/DataTable";
 
-import { buscarTabela } from "../services/api,";
+import { buscarTabela } from "../services/api";
 
 function Pedidos() {
     const [pedidos, setPedidos] = useState([]);
